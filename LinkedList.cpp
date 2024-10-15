@@ -25,6 +25,8 @@ public:
     int getSize();
     void display();
     Node* search(int);
+    void deleteBefore(int);
+    void deleteAfter(int);
 };
 #endif /* LinkedList_hpp */
 //------------------------------------------------
@@ -141,6 +143,31 @@ Node* LinkedList::search(int value)
             temp = temp->next;
     }
     return temp;
+}
+void LinkedList::deleteAfter(int targetValue)
+{
+    Node* temp = search(targetValue);
+    if (!temp || !(temp->next))
+        return;
+    Node* temp2 = temp->next->next;
+    delete temp->next;
+    temp->next = temp2;
+}
+void LinkedList::deleteBefore(int targetValue)
+{
+    Node* temp = search(targetValue);
+    if (!temp || head==temp)
+        return;
+    if(temp == head->next)
+    {
+        deleteAtHead();
+        return;
+    }
+    Node* movingPtr = head;
+    while(movingPtr->next->next->data != targetValue)
+        movingPtr = movingPtr->next;
+    delete movingPtr->next;
+    movingPtr->next = temp;
 }
 
 
